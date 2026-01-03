@@ -1,0 +1,12 @@
+[env]
+# Point bindgen/whisper-rs to the portable LLVM/Clang install
+LIBCLANG_PATH = "C:\\Users\\tranp\\llvm-portable\\18.1.8\\clang+llvm-18.1.8-x86_64-pc-windows-msvc\\bin"
+
+# Make sure CMake and LLVM bin are in PATH when Cargo runs (inherits existing PATH)
+PATH = "C:\\Users\\tranp\\cmake-portable\\3.30.5\\cmake-3.30.5-windows-x86_64\\bin;C:\\Users\\tranp\\llvm-portable\\18.1.8\\clang+llvm-18.1.8-x86_64-pc-windows-msvc\\bin;{env:PATH}"
+
+# Explicit cmake executable path to avoid PATH lookup issues
+CMAKE = "C:\\Users\\tranp\\cmake-portable\\3.30.5\\cmake-3.30.5-windows-x86_64\\bin\\cmake.exe"
+[build]
+# Force MSVC target to avoid GNU toolchain/cmake generator issues
+target = "x86_64-pc-windows-msvc"

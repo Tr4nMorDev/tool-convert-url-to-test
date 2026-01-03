@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" type="image/png" href="/logo.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Convert-url-to-text</title>
+  <script type="module" src="/main.js" defer></script>
+</head>
+
+<body>
+  <div class="overlay"></div>
+  <div class="toolbar">
+    <button id="telemetry-panel-toggle" class="chip-btn" aria-pressed="false">SHOW LIVE TELEMETRY</button>
+  </div>
+  <main class="grid telemetry-hidden">
+    <section class="panel form-panel">
+      <form id="hack-form">
+        <div class="type-selector">
+          <label class="radio-label youtube-option">
+            <input type="radio" name="video-type" value="youtube" checked>
+            <span>YOUTUBE</span>
+          </label>
+          <label class="radio-label tiktok-option">
+            <input type="radio" name="video-type" value="tiktok">
+            <span>TIKTOK</span>
+          </label>
+        </div>
+
+        <label for="input-url" id="input-url-label">VIDEO URL</label>
+        <input id="input-url" type="text" placeholder="https://youtube.com/watch?v=..." />
+
+        <label>WHISPER MODEL</label>
+        <div class="type-selector">
+          <label class="radio-label">
+            <input type="radio" name="whisper-model" value="tiny">
+            <span><strong>tiny</strong><small>❌ unstable</small></span>
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="whisper-model" value="base">
+            <span><strong>base</strong><small>⚠️ basic</small></span>
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="whisper-model" value="small" checked>
+            <span><strong>small</strong><small>✅ good</small></span>
+          </label>
+        </div>
+
+
+        <button id="run-button" type="submit">DEPLOY SCRIPT</button>
+        <div class="status-line" style="margin-top: 1rem; text-align: center;">
+          <span>STATUS:</span>
+          <span id="status-text">IDLE</span>
+        </div>
+      </form>
+    </section>
+
+    <section class="panel console-panel">
+      <div class="console-chrome">
+        <span class="indicator"></span>
+        <span>LIVE TELEMETRY</span>
+        <button id="telemetry-toggle" class="chip-btn" aria-pressed="false">ENABLE</button>
+      </div>
+      <pre id="console-output">>> STANDBY...</pre>
+    </section>
+
+    <section class="panel list-panel">
+      <div class="console-chrome">
+        <span class="indicator" style="background: #ff00ff; box-shadow: 0 0 8px #ff00ff;"></span>
+        <span>CAPTURED DATA</span>
+        <button id="refresh-btn" class="icon-btn">↻</button>
+      </div>
+      <div id="file-list" class="file-list">
+        <div class="empty-state">NO DATA CAPTURED</div>
+      </div>
+    </section>
+
+    <section class="panel preview-panel">
+      <div class="console-chrome">
+        <span class="indicator" style="background: #0fb981; box-shadow: none;"></span>
+        <span>OUTPUT PREVIEW</span>
+        <div class="preview-actions">
+          <button id="preview-copy" class="chip-btn">COPY</button>
+          <button id="preview-save" class="chip-btn">SAVE</button>
+        </div>
+      </div>
+      <pre id="preview-output">Select a file to preview its content...</pre>
+    </section>
+  </main>
+</body>
+
+</html>
+
