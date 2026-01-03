@@ -34,29 +34,19 @@ npm version "$BUMP_TYPE" --no-git-tag-version
 NEW_VERSION="$(node -p "require('./package.json').version")"
 
 # 4) Sync Tauri version (choose ONE method based on your config)
-# ---- Method A: tauri.conf.json (Tauri v1)
-if [ -f "src-tauri/tauri.conf.json" ]; then
-  node -e "
-    const fs=require('fs');
-    const p='src-tauri/tauri.conf.json';
-    const j=JSON.parse(fs.readFileSync(p,'utf8'));
-    j.package = j.package || {};
-    j.package.version='${NEW_VERSION}';
-    fs.writeFileSync(p, JSON.stringify(j,null,2)+'\n');
-  "
-fi
-
-# ---- Method B: tauri.conf.json (root)
-if [ -f "tauri.conf.json" ]; then
-  node -e "
-    const fs=require('fs');
-    const p='tauri.conf.json';
-    const j=JSON.parse(fs.readFileSync(p,'utf8'));
-    j.package = j.package || {};
-    j.package.version='${NEW_VERSION}';
-    fs.writeFileSync(p, JSON.stringify(j,null,2)+'\n');
-  "
-fi
+# ---- Update Tauri v2 config (version at top-level; no package.version)
+for p in "src-tauri/tauri.conf.json" "tauri.conf.json"; do
+  if [ -f "$p" ]; then
+    node -e "
+      const fs=require('fs');
+      const p='$p';
+      const j=JSON.parse(fs.readFileSync(p,'utf8'));
+      j.version='${NEW_VERSION}';
+      if (j.package) delete j.package;
+      fs.writeFileSync(p, JSON.stringify(j,null,2)+'\n');
+    "
+  fi
+done
 
 # ---- Method C: Cargo.toml (Tauri Rust crate version)
 # Only update if you want your src-tauri crate version to match app version.
