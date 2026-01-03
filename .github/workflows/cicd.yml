@@ -28,6 +28,12 @@ jobs:
         with:
           targets: x86_64-pc-windows-msvc
 
+      - name: Install LLVM/Clang
+        run: choco install llvm --version 18.1.8 -y --no-progress
+
+      - name: Set LIBCLANG_PATH
+        run: echo "LIBCLANG_PATH=C:\\Program Files\\LLVM\\bin" >> $GITHUB_ENV
+
       - name: Cache Cargo
         uses: actions/cache@v4
         with:
