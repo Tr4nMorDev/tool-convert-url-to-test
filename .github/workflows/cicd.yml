@@ -31,8 +31,19 @@ jobs:
       - name: Install LLVM/Clang
         run: choco install llvm -y --no-progress || choco upgrade llvm -y --no-progress
 
-      - name: Set LIBCLANG_PATH
-        run: echo "LIBCLANG_PATH=C:\\Program Files\\LLVM\\bin" >> $GITHUB_ENV
+      - name: Install CMake
+        run: choco install cmake -y --no-progress --installargs 'ADD_CMAKE_TO_PATH=System' || choco upgrade cmake -y --no-progress --installargs 'ADD_CMAKE_TO_PATH=System'
+
+      - name: Override Cargo config for CI
+        run: |
+          cat > .cargo/config.toml <<'EOF'
+          [env]
+          LIBCLANG_PATH = "C:\\Program Files\\LLVM\\bin"
+          PATH = "C:\\Program Files\\CMake\\bin;C:\\Program Files\\LLVM\\bin;{env:PATH}"
+          CMAKE = "C:\\Program Files\\CMake\\bin\\cmake.exe"
+          [build]
+          target = "x86_64-pc-windows-msvc"
+          EOF
 
       - name: Cache Cargo
         uses: actions/cache@v4

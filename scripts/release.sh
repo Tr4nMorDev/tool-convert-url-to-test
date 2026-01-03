@@ -61,8 +61,9 @@ if [ -f "src-tauri/Cargo.toml" ]; then
 fi
 
 # 5) Commit everything (including your own changes + version bumps)
+COMMIT_MSG="${COMMIT_MSG_OVERRIDE:-release: v${NEW_VERSION}}"
 git add -A
-git commit -m "release: v${NEW_VERSION}"
+git commit -m "${COMMIT_MSG}"
 
 # 6) Create annotated tag + push main + tag
 git tag -a "v${NEW_VERSION}" -m "v${NEW_VERSION}"
